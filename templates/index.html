@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="command-rail" aria-label="Dashboard navigation">
+        <div class="brand">
+          <span>GA</span>
+          <strong>Analyzer</strong>
+        </div>
+        <nav>
+          <a href="#cockpit" class="active">Cockpit</a>
+          <a href="#intelligence">Intel</a>
+          <a href="#timeline">Timeline</a>
+          <a href="#files">Files</a>
+        </nav>
+        <div class="rail-stat">
+          <span>Mode</span>
+          <strong>Python</strong>
+        </div>
+      </aside>
+
+      <section class="experience">
+        <section class="hero" id="cockpit">
+          <div class="hero-copy">
+            <p class="eyebrow">Repo Intelligence Cockpit</p>
+            <h1>Scan a GitHub repository like a product command center.</h1>
+            <p>
+              Python collects the signals. The interface turns them into health,
+              risk, momentum, and next-action intelligence.
+            </p>
+          </div>
+          <div class="holo-core" aria-hidden="true">
+            <div class="pulse-ring"></div>
+            <strong id="hero-grade">--</strong>
+            <span>grade</span>
+          </div>
+        </section>
+
+        <form class="search-console" id="repo-form">
+          <div class="repo-input">
+            <label for="repo-input">Repository target</label>
+            <input
+              id="repo-input"
+              type="text"
+              value="microsoft/vscode"
+              placeholder="owner/repo, GitHub URL, or git@github.com:owner/repo.git"
+              autocomplete="off"
+              spellcheck="false"
+            />
+          </div>
+          <div class="token-input">
+            <label for="token-input">Token</label>
+            <input id="token-input" type="password" placeholder="optional" autocomplete="off" />
+          </div>
+          <button id="analyze-button" type="submit">Analyze</button>
+          <p id="status-line" role="status">Ready</p>
+        </form>
+
+        <section class="quick-picks" aria-label="Example repositories">
+          <button type="button" data-repo="microsoft/vscode">VS Code</button>
+          <button type="button" data-repo="facebook/react">React</button>
+          <button type="button" data-repo="vercel/next.js">Next.js</button>
+          <button type="button" data-repo="django/django">Django</button>
+          <button type="button" data-repo="pallets/flask">Flask</button>
+        </section>
+
+        <section class="identity hidden" id="identity-card">
+          <img id="repo-avatar" alt="" />
+          <div>
+            <div class="identity-title">
+              <h2 id="repo-name">Repository</h2>
+              <span id="repo-visibility">public</span>
+            </div>
+            <p id="repo-description"></p>
+            <div class="identity-links" id="repo-links"></div>
+          </div>
+          <button type="button" id="copy-report">Copy Report</button>
+        </section>
+
+        <section class="metrics-grid" id="metrics-grid"></section>
+
+        <section class="intelligence-grid" id="intelligence">
+          <article class="panel score-panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Health</p>
+                <h2>Repository Grade</h2>
+              </div>
+              <span id="score-label">--</span>
+            </div>
+            <div class="score-orb" id="score-orb">
+              <strong id="score-value">--</strong>
+              <span id="score-grade">--</span>
+            </div>
+            <div class="signal-list" id="signal-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Next Actions</p>
+                <h2>Smart Recommendations</h2>
+              </div>
+              <span id="recommendation-count">--</span>
+            </div>
+            <div class="recommendation-list" id="recommendation-list"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">Risk</p>
+                <h2>Risk Scanner</h2>
+              </div>
+              <span id="risk-count">--</span>
+            </div>
+            <div class="risk-list" id="risk-list"></div>
+          </article>
+        </section>
+
+        <section class="tab-dock">
+          <div class="tab-strip" role="tablist" aria-label="Analysis details">
+            <button class="tab-button active" type="button" data-tab="languages">Languages</button>
+            <button class="tab-button" type="button" data-tab="timeline">Timeline</button>
+            <button class="tab-button" type="button" data-tab="community">Community</button>
+            <button class="tab-button" type="button" data-tab="files">Files</button>
+          </div>
+
+          <section class="tab-view active" id="tab-languages">
+            <article class="panel wide">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Stack</p>
+                  <h2>Language Mix</h2>
+                </div>
+                <span id="language-total">--</span>
+              </div>
+              <div class="language-map" id="language-map"></div>
+              <div class="dependency-grid" id="dependency-grid"></div>
+            </article>
+          </section>
+
+          <section class="tab-view" id="tab-timeline">
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Momentum</p>
+                  <h2>Recent Commits</h2>
+                </div>
+                <span id="commit-count">--</span>
+              </div>
+              <div class="timeline-list" id="commit-list"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Shipping</p>
+                  <h2>Releases</h2>
+                </div>
+                <span id="release-count">--</span>
+              </div>
+              <div class="timeline-list" id="release-list"></div>
+            </article>
+          </section>
+
+          <section class="tab-view" id="tab-community">
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">People</p>
+                  <h2>Contributors</h2>
+                </div>
+                <span id="contributor-count">--</span>
+              </div>
+              <div class="people-list" id="contributor-list"></div>
+            </article>
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Queue</p>
+                  <h2>Open Work</h2>
+                </div>
+                <span id="work-count">--</span>
+              </div>
+              <div class="work-list" id="work-list"></div>
+            </article>
+          </section>
+
+          <section class="tab-view" id="tab-files">
+            <article class="panel wide" id="files">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">Surface</p>
+                  <h2>Root Files</h2>
+                </div>
+                <span id="file-count">--</span>
+              </div>
+              <div class="file-grid" id="file-grid"></div>
+            </article>
+          </section>
+        </section>
+      </section>
+    </main>
+
+    <template id="metric-template">
+      <article class="metric-card">
+        <span></span>
+        <strong></strong>
+        <p></p>
+      </article>
+    </template>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

@@ -25,7 +25,7 @@ Analyze any GitHub repository with comprehensive insights, repository health met
 
 ### 📸 Preview
 
-<img src="assets/demo.gif" width="900"/>
+<img src="assets/demo.png" width="900"/>
 
 > *(Replace with your application GIF or screenshots.)*
 

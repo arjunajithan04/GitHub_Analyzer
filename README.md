@@ -23,16 +23,6 @@ Analyze any GitHub repository with comprehensive insights, repository health met
 
 ---
 
-### 📸 Preview
-
-<img src="assets/demo.png" width="900"/>
-
-> *(Replace with your application GIF or screenshots.)*
-
-</div>
-
----
-
 # ✨ Overview
 
 GitHub Analyzer is a **Python-powered repository intelligence platform** that transforms GitHub repository data into meaningful visual insights.
